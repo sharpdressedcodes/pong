@@ -1,7 +1,7 @@
 Paddle = Class{}
 
-PADDLE_SPEED = 100
-PADDLE_SPEED_HIGH = 200
+local PADDLE_SPEED = 100
+local PADDLE_SPEED_HIGH = 200
 
 function Paddle:init(x, y, width, height, keys)
 	self.x = x
@@ -25,7 +25,7 @@ function Paddle:render()
 end
 
 function Paddle:handleMovement()
-	local speed = isShiftKeyDown() and PADDLE_SPEED_HIGH or PADDLE_SPEED
+	local speed = love.keyboard.isDown(self.keys.shift) and PADDLE_SPEED_HIGH or PADDLE_SPEED
 
 	if love.keyboard.isDown(self.keys.up) then
 		self.dy = -speed

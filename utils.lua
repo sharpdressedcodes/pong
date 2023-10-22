@@ -33,36 +33,6 @@ function playSound(sound)
     end
 end
 
-function isShiftKeyDown()
-	return love.keyboard.isDown('lshift') or love.keyboard.isDown('rshift')
-end
-
-function isControlKeyDown()
-	return love.keyboard.isDown('lctrl') or love.keyboard.isDown('rctrl')
-end
-
-function isAltKeyDown()
-	return love.keyboard.isDown('lalt') or love.keyboard.isDown('ralt')
-end
-
-function getKeyModifiers()
-    local keys = 0
-
-    if isShiftKeyDown() then
-        keys = keys + 1
-    end
-
-    if isControlKeyDown() then
-        keys = keys + 2
-    end
-
-    if isAltKeyDown() then
-        keys = keys + 4
-    end
-
-    return keys
-end
-
 function incrementScore(player)
     local won = 0
 

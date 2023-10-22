@@ -9,24 +9,24 @@ I used this to learn Love2d and Lua. It helped me understand the basics, which t
 
 
 ### Keys
-| Key   | Action          |
-|-------|-----------------|
-| ESC   | Quits the game. |
-| P     | Toggles pause.  |
-| SPACE | Toggles sound.  |
+| Key   | Action         |
+|-------|----------------|
+| ESC   | Quit the game. |
+| P     | Toggle pause.  |
+| SPACE | Toggle sound.  |
 
 #### Player 1
-| Key       | Action          |
-|-----------|-----------------|
-| W         | Move up.        |
-| S         | Move down.      |
-| SHIFT + W | Move up fast.   |
-| SHIFT + S | Move down fast. |
+| Key        | Action          |
+|------------|-----------------|
+| W          | Move up.        |
+| S          | Move down.      |
+| LSHIFT + W | Move up fast.   |
+| LSHIFT + S | Move down fast. |
 
 #### Player 2
-| Key          | Action          |
-|--------------|-----------------|
-| UP           | Move up.        |
-| DOWN         | Move down.      |
-| SHIFT + UP   | Move up fast.   |
-| SHIFT + DOWN | Move down fast. |
+| Key           | Action          |
+|---------------|-----------------|
+| UP            | Move up.        |
+| DOWN          | Move down.      |
+| RSHIFT + UP   | Move up fast.   |
+| RSHIFT + DOWN | Move down fast. |
