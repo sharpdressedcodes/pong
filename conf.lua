@@ -97,10 +97,12 @@ keys = {
 	player1 = {
 		up = 'w',
 		down = 's',
+        shift = 'lshift',
 	},
 	player2 = {
 		up = 'up',
 		down = 'down',
+        shift = 'rshift',
 	},
 }
 
