@@ -1,12 +1,17 @@
 PlayState = Class{__includes = BaseState}
 
-function PlayState:init(players, ball)
+function PlayState:init(players, ball, onEnter, onWallHit, onPaddleHit, onPlayer1Score, onPlayer2Score)
 	self.players = players
 	self.ball = ball
+	self.onEnter = onEnter
+	self.onWallHit = onWallHit
+	self.onPaddleHit = onPaddleHit
+	self.onPlayer1Score = onPlayer1Score
+	self.onPlayer2Score = onPlayer2Score
 end
 
 function PlayState:enter(params)
-	playSound(sounds.serve)
+	self.onEnter()
 end
 
 function PlayState:update(dt)
@@ -20,73 +25,38 @@ function PlayState:update(dt)
 
 	self.ball:update(dt)
 
-	if self.ball:collides(player1) then
-		self.ball.dx = -self.ball.dx * 1.03
-		self.ball.x = player1.x + player1.width + 1
+	if self.ball:collidesWithEntity(player1) then
+		self.ball:bounceOffEntity(player1.x + player1.width + 1)
+		self.onPaddleHit()
 
-		if self.ball.dy < 0 then
-			self.ball.dy = -math.random(10, 150)
-		else
-			self.ball.dy = math.random(10, 150)
-		end
+	elseif self.ball:collidesWithEntity(player2) then
+		self.ball:bounceOffEntity(player2.x - player2.width)
+		self.onPaddleHit()
 
-		playSound(sounds.paddleHit)
-	end
+	elseif self.ball:collidesWithTopWall() then
+		self.ball:bounceOffTopWall()
+		self.onWallHit()
 
-	if self.ball:collides(player2) then
-		self.ball.dx = -self.ball.dx * 1.03
-		self.ball.x = player2.x - player2.width
+	elseif self.ball:collidesWithBottomWall() then
+		self.ball:bounceOffBottomWall()
+		self.onWallHit()
 
-		if self.ball.dy < 0 then
-			self.ball.dy = -math.random(10, 150)
-		else
-			self.ball.dy = math.random(10, 150)
-		end
+	elseif self.ball:collidesWithLeftWall() then
+		self.onPlayer2Score()
 
-		playSound(sounds.paddleHit)
-	end
-
-	if self.ball.y < 0 then
-		self.ball.y = 0
-		self.ball.dy = -self.ball.dy
-
-		playSound(sounds.wallHit)
-	end
-
-	if self.ball.y > VIRTUAL_HEIGHT - self.ball.height then
-		self.ball.y = VIRTUAL_HEIGHT - self.ball.height
-		self.ball.dy = -self.ball.dy
-
-		playSound(sounds.wallHit)
-	end
-
-	if self.ball.x < 0 then
-		won = incrementScore(2)
-
-		if won > 0 then
-			winningPlayer = 2
-		end
-	elseif self.ball.x > VIRTUAL_WIDTH then
-		won = incrementScore(1)
-
-		if won > 0 then
-			winningPlayer = 1
-		end 
+	elseif self.ball:collidesWithRightWall() then
+		self.onPlayer1Score()
 	end
 end
 
 function PlayState:render()
-	displayScores()
-	displayFPS()
-	-- drawDivider()
+	Display.drawFPS()
+    Display.drawScores(self.players[1].score, self.players[2].score)
+    -- Display.drawDivider()
 
 	for _, player in pairs(self.players) do
 		player:render()
 	end
 
 	self.ball:render()
-end
-
-function PlayState:exit()
-	--
 end

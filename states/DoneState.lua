@@ -1,11 +1,8 @@
 DoneState = Class{__includes = BaseState}
 
-function DoneState:init(players)
+function DoneState:init(players, winningPlayer)
 	self.players = players
-end
-
-function DoneState:enter(params)
-	--
+	self.winningPlayer = winningPlayer
 end
 
 function DoneState:update(dt)
@@ -18,23 +15,15 @@ end
 function DoneState:render()
 	local textY = 10
 
-	displayScores()
-	displayFPS()
+	Display.drawFPS()
+    Display.drawScores(self.players[1].score, self.players[2].score)
 
-	love.graphics.setFont(largeFont)
-	love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0, textY, VIRTUAL_WIDTH, 'center')
-
-	textY = textY + 20
-	love.graphics.setFont(smallFont)
-	love.graphics.printf('Press [enter] to restart', 0, textY, VIRTUAL_WIDTH, 'center')
+    Display.drawHorizontallyCenteredText('Player ' .. tostring(self.winningPlayer) .. ' wins!', textY, Display.fonts.large)
+    Display.drawHorizontallyCenteredText('Press ENTER to restart', textY + Display.FONT_SIZE_LARGE + 1, Display.fonts.small)
 
 	for _, player in pairs(self.players) do
 		player:render()
 	end
 
 	self.ball:render()
-end
-
-function DoneState:exit()
-	--
 end
