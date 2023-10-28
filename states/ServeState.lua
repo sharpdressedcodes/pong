@@ -7,19 +7,10 @@ end
 
 function ServeState:enter(params)
 	self.servingPlayer = params.servingPlayer
-
-	self.ball:reset()
+	self.ball:setDirection(params.servingPlayer)
 end
 
 function ServeState:update(dt)
-	self.ball.dy = math.random(-50, 50)
-
-	if self.servingPlayer == 1 then
-		self.ball.dx = math.random(140, 200)
-	else
-		self.ball.dx = -math.random(140, 200)
-	end
-
 	for _, player in pairs(self.players) do
 		player:handleMovement()
 		player:update(dt)
@@ -29,21 +20,14 @@ end
 function ServeState:render()
 	local textY = 10
 
-	displayFPS()
+	Display.drawFPS()
 
-	love.graphics.setFont(fonts.small)
-	love.graphics.printf('Player ' .. tostring(self.servingPlayer) .. "'s serve", 0, textY, VIRTUAL_WIDTH, 'center')
-
-	textY = textY + 10
-	love.graphics.printf('Press ENTER to serve', 0, textY, VIRTUAL_WIDTH, 'center')
+	Display.drawHorizontallyCenteredText('Player ' .. tostring(self.servingPlayer) .. "'s serve", textY, Display.fonts.small)
+	Display.drawHorizontallyCenteredText('Press ENTER to serve', textY + Display.FONT_SIZE_SMALL + 1, Display.fonts.small)
 
 	for _, player in pairs(self.players) do
 		player:render()
 	end
 
 	self.ball:render()
-end
-
-function ServeState:exit()
-	--
 end

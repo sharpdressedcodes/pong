@@ -4,10 +4,6 @@ function StartState:init(players)
 	self.players = players
 end
 
-function StartState:enter(params)
-	--
-end
-
 function StartState:update(dt)
 	for _, player in pairs(self.players) do
 		player:handleMovement()
@@ -16,22 +12,15 @@ function StartState:update(dt)
 end
 
 function StartState:render()
-	local textY = (VIRTUAL_HEIGHT - FONT_SIZE_SMALL) / 2
+	local textY = (Display.windowHeight - Display.FONT_SIZE_SMALL) / 2
 
-	displayScores()
-	displayFPS()
+	Display.drawScores(self.players[1].score, self.players[2].score)
+	Display.drawFPS()
 
-	love.graphics.setFont(fonts.small)
-	love.graphics.printf('Welcome to ' .. APP_NAME .. '!', 0, textY, VIRTUAL_WIDTH, 'center')
-
-	textY = textY + FONT_SIZE_SMALL
-	love.graphics.printf('Press ENTER to start', 0, textY, VIRTUAL_WIDTH, 'center')
+	Display.drawHorizontallyCenteredText('Welcome to ' .. StartState.appName .. '!', textY, Display.fonts.small)
+	Display.drawHorizontallyCenteredText('Press ENTER to start', textY + Display.FONT_SIZE_SMALL + 1, Display.fonts.small)
 
 	for _, player in pairs(self.players) do
 		player:render()
 	end
-end
-
-function StartState:exit()
-	--
 end
